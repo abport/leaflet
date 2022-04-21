@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/dist/leaflet.css" />
+    <script
+      src="./dist/leaflet.js"
+      integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+      crossorigin=""
+    ></script>
+    <link rel="stylesheet" href="./dist/style.css" />
+    <title>AB Leaflet Complete Edition</title>
+  </head>
+
+  <body>
+    <div id="mapContainer"></div>
+    <div id="logoContainer">
+      <img src="./dist/images/logo.png" alt="" />
+    </div>
+  </body>
+  <script>
+    var map = L.map("mapContainer", {
+      center: [42.75621, -105.99404],
+      zoom: 5,
+    });
+    var OSM = L.tileLayer(
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }
+    ).addTo(map);
+
+    var geoJSON = {
+      type: "Feature",
+      properties: {
+        name: "My Name",
+        popupContent: "This is my popup",
+      },
+      geometry: {
+        type: "Point",
+        coordinates: [-104.99404, 39.75621],
+      },
+    };
+
+    var myIcon = L.icon({
+      iconUrl: "dist/images/green_flag.png",
+      iconSize: [51, 51],
+      iconAnchor: [5, 51],
+    });
+    L.geoJSON(geoJSON, {
+      pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, {
+          icon: myIcon,
+        });
+      },
+    }).addTo(map);
+
+    var states = [
+      {
+        type: "Feature",
+        properties: { party: "Republican" },
+        geometry: {
+          type: "Polygon",
+          coordinates: [
+            [
+              [-104.05, 48.99],
+              [-97.22, 48.98],
+              [-96.58, 45.94],
+              [-104.03, 45.94],
+              [-104.05, 48.99],
+            ],
+          ],
+        },
+      },
+      {
+        type: "Feature",
+        properties: { party: "Democrat" },
+        geometry: {
+          type: "Polygon",
+          coordinates: [
+            [
+              [-109.05, 41.0],
+              [-102.06, 40.99],
+              [-102.03, 36.99],
+              [-109.04, 36.99],
+              [-109.05, 41.0],
+            ],
+          ],
+        },
+      },
+    ];
+
+    L.geoJSON(states, {
+      style: function (feature) {
+        switch (feature.properties.party) {
+          case "Republican":
+            return { color: "#ff0000" };
+          case "Democrat":
+            return { color: "#0000ff" };
+        }
+      },
+    }).addTo(map);
+  </script>
+</html>
