@@ -1,8 +1,9 @@
 # Leaflet Map
 
-An interactive map using Leaflet Functions!
+<h3>An interactive map using Leaflet Functions!</h3>
 
-<ul>Some of the Functions:
+<b>Some of the Functions:<b>
+<ul>
     <li>Haversine Disctance Function</li>
     <li>Measuring the Distance between 2 Points</li>
     <li>Add a circle and Polygon shapes to the Map</li>
