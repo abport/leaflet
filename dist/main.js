@@ -145,8 +145,31 @@ map.on("click", onMapClick);
 // Import GeoJSON file
 
 function process(feature, layer) {
+  let websiteLink = "";
+
+  if (feature.properties.website != null) {
+    websiteLink =
+      "<a href=" +
+      feature.properties.website +
+      ' target="_blank">' +
+      feature.properties.website +
+      "</a>";
+  }
+  let popupTxt = "<b>" + feature.properties.title + "<b><br/>" + websiteLink;
+
+  let popupObj = layer.bindPopup(popupTxt, {
+    className: "mapPopup",
+  });
+
   switch (feature.properties.categories || feature.properties.categoryName) {
     case "Restaurant":
+      // layer.setIcon(
+      //   L.icon({
+      //     iconUrl: "dist/images/green_flag.png",
+      //     iconSize: [51, 51],
+      //     iconAnchor: [5, 51],
+      //   })
+      // );
       restaurants.addLayer(layer);
       break;
     case "Park":
