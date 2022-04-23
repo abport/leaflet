@@ -142,6 +142,46 @@ function onMapClick(e) {
 
 map.on("click", onMapClick);
 
+// Import GeoJSON file
+
+function process(feature, layer) {
+  switch (feature.properties.categories || feature.properties.categoryName) {
+    case "Restaurant":
+      restaurants.addLayer(layer);
+      break;
+    case "Park":
+      parks.addLayer(layer);
+      break;
+    case "Bus station":
+      busStations.addLayer(layer);
+      break;
+    case "Transit station":
+      transitStations.addLayer(layer);
+      break;
+    case "Fire station" || "Fire department equipment supplier":
+      firetStations.addLayer(layer);
+      break;
+    case "Hospital":
+      hospitals.addLayer(layer);
+      break;
+    case "University":
+      universities.addLayer(layer);
+      break;
+  }
+}
+
+let restaurants = L.layerGroup();
+let parks = L.layerGroup();
+let busStations = L.layerGroup();
+let transitStations = L.layerGroup();
+let firetStations = L.layerGroup();
+let hospitals = L.layerGroup();
+let universities = L.layerGroup();
+
+let geojson = L.geoJson(POI, {
+  onEachFeature: process,
+});
+
 // -----------------------------------------------------
 // Control Layers (First One) --------------------------
 // var baseLayers = {
@@ -150,6 +190,13 @@ map.on("click", onMapClick);
 // };
 
 var overlays = {
+  Restaurants: restaurants,
+  Parks: parks,
+  "Bus Stations": busStations,
+  "Transit Stations": transitStations,
+  "Fire Stations": firetStations,
+  Hospitals: hospitals,
+  Universities: universities,
   Start: startPoint,
   End: endPoint,
   Shapes: L.layerGroup([polygon, circle]).addTo(map),
